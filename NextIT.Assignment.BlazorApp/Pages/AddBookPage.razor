@@ -1,0 +1,108 @@
+﻿@page "/add-book"
+
+@using NextIT.Assignment.Models
+@using NextIT.Assignment.BlazorApp.Data
+
+@inject IBookService BookService
+
+<h1>AddBookPage</h1>
+<h2 style="color: red">@errorMsg</h2>
+<EditForm EditContext="_newBookContext">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
+    <div class="d-flex flex-wrap justify-content-around">
+        <div>
+            <div class="form-group">
+                <label for="bookName">Book name:</label>
+                <InputText class="form-control" id="bookName" @bind-Value="_newBook.Name"></InputText>
+            </div>
+            <div class="form-group">
+                <label for="bookAuthor">Book author:</label>
+                <InputText class="form-control" id="bookAuthor" @bind-Value="_newBook.Author"></InputText>
+            </div>
+
+        </div>
+    </div>
+</EditForm>
+
+<EditForm EditContext="_borrowingPersonContext">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="ml-md-3">
+        <h3>Borrowing to (optional):</h3>
+        <div class="form-group">
+            <label for="borrowedFirstName">First name:</label>
+            <InputText class="form-control" id="borrowedFirstName" @bind-Value="_borrowingPerson.FirstName" />
+        </div>
+        <div class="form-group">
+            <label for="borrowedLastName">Last name:</label>
+            <InputText class="form-control" id="borrowedLastName" @bind-Value="_borrowingPerson.LastName" />
+        </div>
+        <div class="form-group">
+            <label for="borrowedFrom">From:</label>
+            <InputDate class="form-control" id="borrowedFrom" @bind-Value="_borrowingPerson.From" />
+        </div>
+    </div>
+</EditForm>
+<div class="d-flex">
+    <button class="btn btn-primary align-content-center" @onclick="ConfirmAsync">Confirm</button>
+</div>
+
+
+@code {
+
+    private EditContext _newBookContext;
+    private EditContext _borrowingPersonContext;
+    private Book _newBook;
+    private BorrowingPerson _borrowingPerson;
+
+    private string errorMsg;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ResetForm(true);
+    }
+
+    private void ResetForm(bool created)
+    {
+        if (created)
+        {
+            _newBook = new Book();
+            _borrowingPerson = new BorrowingPerson();
+            _newBookContext = new EditContext(_newBook);
+            _borrowingPersonContext = new EditContext(_borrowingPerson);
+            errorMsg = "";
+        }
+        else
+        {
+            errorMsg = "Error creating book";
+        }
+    }
+
+    private async Task ConfirmAsync()
+    {
+        bool validBook = _newBookContext.Validate();
+        _newBookContext.NotifyValidationStateChanged();
+        if (!validBook)
+            return;
+
+
+        if (!EmptyBorrowingPerson())
+        {
+            bool validPerson = _borrowingPersonContext.Validate();
+            _borrowingPersonContext.NotifyValidationStateChanged();
+            if (!validPerson)
+                return;
+            _newBook.Borrowed = _borrowingPerson;
+        }
+
+        bool created = await BookService.CreateNewBookAsync(_newBook);
+        ResetForm(created);
+    }
+
+    private bool EmptyBorrowingPerson() => String.IsNullOrWhiteSpace(_borrowingPerson.FirstName) || String.IsNullOrWhiteSpace(_borrowingPerson.LastName);
+
+}

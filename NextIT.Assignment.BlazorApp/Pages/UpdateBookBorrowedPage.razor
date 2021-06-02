@@ -1,0 +1,54 @@
+﻿@page "/books/{BookId}"
+
+
+@inject IBookService BookService
+
+
+<h3>UpdateBookBorrowedPage</h3>
+
+<EditForm Model="_borrowingPerson" OnValidSubmit="ConfirmForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="ml-md-3">
+        <h3>Borrowing to:</h3>
+        <div class="form-group">
+            <label for="borrowedFirstName">First name:</label>
+            <InputText class="form-control" id="borrowedFirstName" @bind-Value="_borrowingPerson.FirstName" />
+        </div>
+        <div class="form-group">
+            <label for="borrowedLastName">Last name:</label>
+            <InputText class="form-control" id="borrowedLastName" @bind-Value="_borrowingPerson.LastName" />
+        </div>
+        <div class="form-group">
+            <label for="borrowedFrom">From:</label>
+            <InputDate class="form-control" id="borrowedFrom" @bind-Value="_borrowingPerson.From" />
+        </div>
+    </div>
+    <button class="btn btn-primary align-content-center" type="submit">Confirm</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string BookId { get; set; }
+
+    private BorrowingPerson _borrowingPerson;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        ResetForm();
+    }
+
+    private void ResetForm()
+    {
+        _borrowingPerson = new BorrowingPerson();
+    }
+
+
+    private async Task ConfirmForm()
+    {
+        await BookService.BorrowBookAsync(int.Parse(BookId), _borrowingPerson);
+    }
+
+}

@@ -1,0 +1,12 @@
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\bin\Debug\net5.0\NextIT.Assignment.Models.deps.json
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\bin\Debug\net5.0\NextIT.Assignment.Models.dll
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\bin\Debug\net5.0\ref\NextIT.Assignment.Models.dll
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\bin\Debug\net5.0\NextIT.Assignment.Models.pdb
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\obj\Debug\net5.0\NextIT.Assignment.Models.csprojAssemblyReference.cache
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\obj\Debug\net5.0\NextIT.Assignment.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\obj\Debug\net5.0\NextIT.Assignment.Models.AssemblyInfoInputs.cache
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\obj\Debug\net5.0\NextIT.Assignment.Models.AssemblyInfo.cs
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\obj\Debug\net5.0\NextIT.Assignment.Models.csproj.CoreCompileInputs.cache
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\obj\Debug\net5.0\NextIT.Assignment.Models.dll
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\obj\Debug\net5.0\ref\NextIT.Assignment.Models.dll
+C:\Users\anton\source\repos\NextIT.Assignment\NextIT.Assignment.Models\obj\Debug\net5.0\NextIT.Assignment.Models.pdb

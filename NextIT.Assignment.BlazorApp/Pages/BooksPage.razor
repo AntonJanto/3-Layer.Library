@@ -1,0 +1,87 @@
+﻿@page "/books"
+
+@using NextIT.Assignment.Models
+@using NextIT.Assignment.BlazorApp.Data
+
+@inject IBookService BookService
+@inject NavigationManager NavManager
+
+
+<h1>Books</h1>
+
+<p>This page displays books</p>
+
+@if (_filteredBooks == null || !_filteredBooks.Any())
+{
+    <h3>No books to display</h3>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th colspan="2">Book</th>
+            <th colspan="4">Borrowed to</th>
+        </tr>
+        <tr>
+            <th>Book Name</th>
+            <th>Book Author</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Borrowed From</th>
+            <th>Borrow/Free</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var book in _filteredBooks)
+        {
+            <tr>
+                <td>@book.Name</td>
+                <td>@book.Author</td>
+                @if (book.Borrowed != null)
+                {
+                    <td>@book.Borrowed.FirstName</td>
+                    <td>@book.Borrowed.LastName</td>
+                    <td>@book.Borrowed.From</td>
+                    <td @onclick="@(async () => await OnFreeClickAsync(book.Id))"><span class="oi oi-x" />Free</td>
+                }
+                else
+                {
+                    <td colspan="3">Free to borrow</td>
+                    <td @onclick="@(async () => await OnBorrowClickAsync(book.Id))"><span class="oi oi-arrow-circle-right" />Borrow</td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private IList<Book> _allBooks;
+    private IList<Book> _filteredBooks;
+
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitializedAsync();
+        await SetBooksAsync();
+    }
+
+    private async Task SetBooksAsync()
+    {
+        _allBooks = await BookService.GetAllBooksAsync();
+        _filteredBooks = _allBooks;
+    }
+
+    private async Task OnFreeClickAsync(int bookId)
+    {
+        await BookService.FreeBookAsync(bookId);
+        await SetBooksAsync();
+    }
+
+    private async Task OnBorrowClickAsync(int bookId)
+    {
+        NavManager.NavigateTo($"books/{bookId}");
+    }
+
+}
